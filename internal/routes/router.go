@@ -11,9 +11,9 @@ func (rc *RefRouteController) RefRoutes(router *gin.Engine) {
 
 	ref := router.Group("referrals")
 	{
-		ref.POST("/create-ref/:id", rc.refCont.CreateRef)   // Создание реферального кода по id
-		ref.DELETE("/delete-ref/:id", rc.refCont.DeleteRef) // Удаление реферального кода по id
-		ref.GET("/token", rc.refCont.GetToken)              // Получение реферального кода по email
-		ref.GET("/ref-list/:id", rc.refCont.GetRefList)     // Получение информации о рефералах по id
+		ref.POST("/create-ref", rc.refCont.CreateRef)   // Создание реферального кода
+		ref.DELETE("/delete-ref", rc.refCont.DeleteRef) // Удаление реферального кода
+		ref.GET("/token", rc.refCont.GetToken)          // Получение реферального кода по email
+		ref.GET("/ref-list/:id", rc.refCont.GetRefList) // Получение информации о рефералах по id
 	}
 }
