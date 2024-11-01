@@ -1,11 +1,27 @@
 package controllers
 
-import "github.com/gin-gonic/gin"
+import (
+	cerr "ReferralAPI/pkg/custom_errors"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 func (rc *RefController) GetRefList(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 
-	if _, err := rc.refServ.TokenValidation(token); err != nil {
-
+	_, err := rc.refServ.TokenValidation(token)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": cerr.ErrNotAuthorized.Error()})
+		return
 	}
+
+	id := c.Param("id")
+	users, err := rc.refServ.GetRefList(id)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "got referrals list", "referrals": users})
 }
