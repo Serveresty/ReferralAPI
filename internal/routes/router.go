@@ -1,6 +1,12 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	_ "ReferralAPI/docs"
+
+	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+)
 
 func (rc *RefRouteController) RefRoutes(router *gin.Engine) {
 	auth := router.Group("auth")
@@ -16,4 +22,6 @@ func (rc *RefRouteController) RefRoutes(router *gin.Engine) {
 		ref.GET("/token", rc.refCont.GetToken)          // Получение реферального кода по email
 		ref.GET("/ref-list/:id", rc.refCont.GetRefList) // Получение информации о рефералах по id
 	}
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
